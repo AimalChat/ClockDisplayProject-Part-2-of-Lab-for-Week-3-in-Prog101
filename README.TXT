@@ -32,7 +32,7 @@ the following constructor:
 Call its getTime method to find out the initial time the clock has been set to.
 Can you work out why it starts at that particular time?
 
-21b.
+21b."00:00", because that is the set initial value for the object when initiallized.
 
 22a. Open an inspector for this object. With the inspector open, call the object’s 
 methods. Watch the displayString field in the inspector. Read the project comment 
@@ -44,29 +44,58 @@ methods. Watch the displayString field in the inspector. Read the project commen
 ClockDisplay object to make its time reach 01:00? How else could you make it display 
 that time?
 
-23b.
+23b.I would have to call the timeTick method 60 times in order to reach the desired
+"01:00" String display. Alternatively, you may call the setTime method and write in the
+respectve parameters : 1 for hours and 0 for minutes.
 
 24a. Write down the definition of a variable of type NumberDisplay called digit. 
 Write an assignment statement that creates a NumberDisplay object with a rollover 
 limit of 10 and assigns the object to the variable.
 
-24b.
+24b.private NumberDisplay digit; 
+& 
+private NumberDisplay digit;
+digit = new NumberDisplay(10);
 
 25a. Write Java statements that define a variable named window of type Rectangle, 
 and then create a rectangle object and assign it to that variable. The rectangle 
 constructor has two int parameters for the lengths of its sides.
 
 25b.
+ex: 
+public class Drawing
+{
+private int lengtH;
+private int width;
+...
 
+public createWindow()
+{
+private Rectangle window;
+window = new Rectangle(length, width);
+}
+...
+}
 26a. Look at the second constructor in ClockDisplay’s source code. Explain what it 
 does and how it does it.
 
-26b.
+26b.It allows the user to create a ClockDisplay object with a specified number
+displayed/ String displayed by inputting int values that initialize both hours
+and minutes.
 
 27a. Identify the similarities and differences between the two constructors. 
 Why is there no call to updateDisplay in the second constructor, for instance?
 
-27b.
+27b.First, the similarities are that both create two objects of type NumberDisplay 
+named hours and miuntes that have their own respective limits or rollover limits
+, 24 for hours and 60 for minutes. As for the differences, the ClockDisplay() 
+constructor has no formal parameters as opposed to the ClockDisplay(int hour, int minute)
+constructor that has two int type parameters. Another one is the last lines of code for
+the both. First one having : "updateDisplay();" while the second one has : 
+"setTime(hour, minute);". As for why there is a discrpency in the second constructor,
+it is due to the inputted values necessary to customize the String returned to the user.
+We shouldnt updateDisplay because there is no need for it, we set the time with the 
+received pieces of data. ****
 
 28a. Given a variable
  Printer p1;
@@ -76,7 +105,11 @@ the Printer class with the headers.
  public int getStatus(int delay)
 write two possible calls to each of these methods.
 
-28b.
+28b. p1.print("Sales.jpeg", true);
+p1.print("001.png", false);
+&
+p1.getStatus(100);
+p1.getStatus(1);
 
 29a. Open the house project from chapter 1 and review the Picture class. What 
 types of object are created by the constructor of Picture?
@@ -107,7 +140,8 @@ variable?
 
 34b.
 
-35a. What are all possible results of the expression (n % m), where n and m are integer variables?
+35a. What are all possible results of the expression (n % m), where n and m are 
+integer variables?
 
 35b.
 
