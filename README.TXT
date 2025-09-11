@@ -114,36 +114,46 @@ p1.getStatus(1);
 29a. Open the house project from chapter 1 and review the Picture class. What 
 types of object are created by the constructor of Picture?
 
-29b.
+29b.They're all class objects.
 
 30a. List all the external method calls that are made in the draw method of Picture 
 on the Triangle object called roof.
 
 30b.
+roof.changeSize(60, 180);
+roof.moveHorizontal(20);
+roof.moveVertical(-60);
+roof.makeVisible();
 
 31a. Does the Picture class contain any internal method calls?
 
-31b.
+31b.No, I dont think so since all methods definied in this class werent repeated in
+any of the method bodies.
 
 32a. What is the result of the expression (8 % 3)? In other words, what value 
 remains when 8 is divided by 3?
 
-32b.
+32b.2
 
 33a. Try out the expression (8 % 3) in the Code Pad. Try other numbers. What happens 
 when you use the modulo operator with negative numbers?
 
-33b.
+33b.It gives a negative number if one or both are negative.
 
 34a. What are all possible results of the expression (n % 5), where n is an integer 
 variable?
 
-34b.
+34b. the result of the modulus will always be a remainder between minus infinity and 
+4, inclusive. Since the remainder is always smaller than the divisor, meaning it can 
+only  or a positive integer value. This means that the result could be 0 to 4,without exceeding 4.
 
 35a. What are all possible results of the expression (n % m), where n and m are 
 integer variables?
 
-35b.
+HELP35b. The result of the modulus will always be an integer between minus infinity and 
+m - 1(if m is positive) or m + 1(if m = negative value), and it doesnt depend on whether
+n is smaller than m. Because the result always has the same sign as the dividen, meaning, 
+by example, 5 % -10 = 5, -5 % 10 = -5.
 
 36a. Challenge exercise Change the clock from a 24-hour clock to a 12-hour clock. 
 Be careful: This is not as easy as it might at first seem. In a 12-hour clock, the 
@@ -152,6 +162,81 @@ the minute display shows values from 0 to 59, while the hour display shows value
 1 to 12!
 
 36b.
+public class ClockDisplay
+{
+    private NumberDisplay hours;
+    private NumberDisplay minutes;
+    private String displayString;    // simulates the actual display
+    
+    /**
+     * Constructor for ClockDisplay objects. This constructor 
+     * creates a new clock set at 12:00.
+     */
+    public ClockDisplay()
+    {
+        hours = new NumberDisplay(13);
+        minutes = new NumberDisplay(60);
+        hours.setValue(12);
+        updateDisplay();
+    }
+
+    /**
+     * Constructor for ClockDisplay objects. This constructor
+     * creates a new clock set at the time specified by the 
+     * parameters.
+     */
+    public ClockDisplay(int hour, int minute)
+    {
+        hours = new NumberDisplay(24);
+        minutes = new NumberDisplay(60);
+        setTime(hour, minute);
+    }
+
+    /**
+     * This method should get called once every minute - it makes
+     * the clock display go one minute forward.
+     */
+    public void timeTick()
+    {
+        minutes.increment();
+        if(minutes.getValue() == 0) {
+            //Increments the hour twice in case of 0 or 12.
+            if(hours.getValue() == 0 || hours.getValue() == 12){
+                hours.increment();
+            }
+            // It just rolled over!
+            hours.increment();
+        }
+        updateDisplay();
+    }
+
+    /**
+     * Set the time of the display to the specified hour and minute.
+     */
+    public void setTime(int hour, int minute)
+    {
+        hours.setValue(hour);
+        minutes.setValue(minute);
+        updateDisplay();
+    }
+
+    /**
+     * Return the current time of this display in the format HH:MM.
+     */
+    public String getTime()
+    {
+        return displayString;
+    }
+    
+    /**
+     * Update the internal string that represents the display.
+     */
+    private void updateDisplay()
+    {
+        displayString = hours.getDisplayValue() + ":" + 
+                        minutes.getDisplayValue();
+    }
+}
 
 37a. There are (at least) two ways in which you can make a 12-hour clock. One 
 possibility is to just store hour values from 1 to 12. On the other hand, you can 
@@ -159,4 +244,58 @@ simply leave the clock to work internally as a 24-hour clock but change the disp
 string of the clock display to show 4:23 or 4.23pm when the internal value 
 is 16:23. Implement both versions. Which option is easier? Which is better? Why?
 
-37b.
+37b.In my opinion, this one was harder for me to apply. As for which is better, I think
+this one may be better since the switch between the 12 and 24 hour cycle is much easier
+to do and could even be implemented as a different constructor and such!
+    /**
+     * Return the current time of this display in the format HH:MM.
+     */
+    public String getTime()
+    {
+        /**
+         * Create the new display for the 12 hour rotation and replace
+         * the original displayed String with this one.
+         */
+        int hourDisplay = hours.getValue() % 12;
+        //No 00:00 for midnight, so if if does equal to 0, change it to 12.
+        if(hourDisplay == 0){
+            hourDisplay = 12;
+        }
+        /**
+         * Return the fully realized concatination with all the newly
+         * added surface level modified hour display.
+         */
+        displayString = hourDisplay + ":" + minutes.getDisplayValue();
+        return displayString;
+    }
+
+    /**
+     * Return the current time of this display in the format HH:MM.
+     */
+    public String getTime()
+    {
+        /**
+         * Create the new display for the 12 hour rotation and replace
+         * the original displayed String with this one.
+         */
+        int hourDisplay = hours.getValue() % 12;
+        //No 00:00 for midnight, so if if does equal to 0, change it to 12.
+        if(hourDisplay == 0){
+            hourDisplay = 12;
+        }
+        //create the additional string for the period of day (am/pm)
+        String period;
+        //if 0 to 12 = am, else 13 to 24 = pm.
+        if (hours.getValue() >= 12){
+            period = "pm";
+        }
+        else{
+            period = "am";
+        }
+        /**
+         * Return the fully realized concatination with all the newly
+         * added details : period and the surface level modified hour display.
+         */
+        displayString = hourDisplay + ":" + minutes.getDisplayValue() + period;
+        return displayString;
+    }
